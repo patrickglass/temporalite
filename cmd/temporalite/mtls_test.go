@@ -46,7 +46,7 @@ import (
 	"go.temporal.io/api/workflowservice/v1"
 	"go.temporal.io/sdk/client"
 
-	"github.com/temporalio/temporalite/internal/liteconfig"
+	"github.com/patrickglass/temporalite/internal/liteconfig"
 )
 
 func TestMTLSConfig(t *testing.T) {

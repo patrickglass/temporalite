@@ -1,7 +1,7 @@
 # Temporalite
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/temporalio/temporalite.svg)](https://pkg.go.dev/github.com/temporalio/temporalite)
-[![ci](https://github.com/temporalio/temporalite/actions/workflows/ci.yml/badge.svg)](https://github.com/temporalio/temporalite/actions/workflows/ci.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/patrickglass/temporalite.svg)](https://pkg.go.dev/github.com/patrickglass/temporalite)
+[![ci](https://github.com/patrickglass/temporalite/actions/workflows/ci.yml/badge.svg)](https://github.com/patrickglass/temporalite/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/DataDog/temporalite/branch/main/graph/badge.svg)](https://codecov.io/gh/DataDog/temporalite)
 
 > ⚠️ This project is experimental and not suitable for production use. ⚠️
@@ -28,7 +28,7 @@ Features that align with this goal:
 
 ### Download and Start Temporal Server Locally
 
-Download and extract the [latest release](https://github.com/temporalio/temporalite/releases/latest) from [GitHub releases](https://github.com/temporalio/temporalite/releases).
+Download and extract the [latest release](https://github.com/patrickglass/temporalite/releases/latest) from [GitHub releases](https://github.com/patrickglass/temporalite/releases).
 
 Start Temporal server:
 
@@ -108,7 +108,7 @@ temporalite start --dynamic-config-value system.forceSearchAttributesCacheRefres
 To compile the source run:
 
 ```bash
-go build -o dist/temporalite ./cmd/temporalite 
+go build -o dist/temporalite ./cmd/temporalite
 ```
 
 To run all tests:
@@ -119,4 +119,4 @@ go test ./...
 
 ## Known Issues
 
-- When consuming Temporalite as a library in go mod, you may want to replace grpc-gateway with a fork to address URL escaping issue in UI. See <https://github.com/temporalio/temporalite/pull/118>
+- When consuming Temporalite as a library in go mod, you may want to replace grpc-gateway with a fork to address URL escaping issue in UI. See <https://github.com/patrickglass/temporalite/pull/118>

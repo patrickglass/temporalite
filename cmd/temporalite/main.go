@@ -22,11 +22,16 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
+	provider "github.com/temporalio/ui-server/v2/plugins/fs_config_provider"
+	uiserver "github.com/temporalio/ui-server/v2/server"
+	uiconfig "github.com/temporalio/ui-server/v2/server/config"
+	uiserveroptions "github.com/temporalio/ui-server/v2/server/server_options"
+
 	// Load sqlite storage driver
 	_ "go.temporal.io/server/common/persistence/sql/sqlplugin/sqlite"
 
-	"github.com/temporalio/temporalite"
-	"github.com/temporalio/temporalite/internal/liteconfig"
+	"github.com/patrickglass/temporalite"
+	"github.com/patrickglass/temporalite/internal/liteconfig"
 )
 
 // Name of the ui-server module, used in tests to verify that it is included/excluded
@@ -76,7 +81,7 @@ func buildCLI() *cli.App {
 	}
 	app := cli.NewApp()
 	app.Name = "temporalite"
-	app.Usage = "An experimental distribution of Temporal that runs as a single process\n\nFind more information at: https://github.com/temporalio/temporalite"
+	app.Usage = "An experimental distribution of Temporal that runs as a single process\n\nFind more information at: https://github.com/patrickglass/temporalite"
 	app.Version = fmt.Sprintf("%s (server %s)", version, headers.ServerVersion)
 	app.Commands = []*cli.Command{
 		{
@@ -384,4 +389,42 @@ func getDynamicConfigValues(input []string) (map[dynamicconfig.Key][]dynamicconf
 		ret[key] = append(ret[key], val)
 	}
 	return ret, nil
+}
+
+func newUIOption(c *uiConfig, configDir string) (temporalite.ServerOption, error) {
+	cfg, err := newUIConfig(
+		c,
+		configDir,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return temporalite.WithUI(uiserver.NewServer(uiserveroptions.WithConfigProvider(cfg))), nil
+}
+
+func newUIConfig(c *uiConfig, configDir string) (*uiconfig.Config, error) {
+	cfg := &uiconfig.Config{
+		Host:                c.Host,
+		Port:                c.Port,
+		TemporalGRPCAddress: c.TemporalGRPCAddress,
+		EnableUI:            c.EnableUI,
+		Codec: uiconfig.Codec{
+			Endpoint: c.CodecEndpoint,
+		},
+	}
+
+	if configDir != "" {
+		if err := provider.Load(configDir, cfg, "temporalite-ui"); err != nil {
+			if !strings.HasPrefix(err.Error(), "no config files found") {
+				return nil, err
+			}
+		}
+	}
+
+	// See https://github.com/patrickglass/temporalite/pull/174/files#r1035958308
+	// for context about those overrides.
+	cfg.TemporalGRPCAddress = c.TemporalGRPCAddress
+	cfg.EnableUI = c.EnableUI
+
+	return cfg, nil
 }

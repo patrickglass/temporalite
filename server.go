@@ -18,7 +18,7 @@ import (
 	"go.temporal.io/server/schema/sqlite"
 	"go.temporal.io/server/temporal"
 
-	"github.com/temporalio/temporalite/internal/liteconfig"
+	"github.com/patrickglass/temporalite/internal/liteconfig"
 )
 
 // Server wraps temporal.Server.
@@ -147,7 +147,7 @@ func (s *Server) NewClient(ctx context.Context, namespace string) (client.Client
 // Note that the HostPort and ConnectionOptions fields of client.Options will always be overridden.
 func (s *Server) NewClientWithOptions(ctx context.Context, options client.Options) (client.Client, error) {
 	options.HostPort = s.frontendHostPort
-	return client.NewClient(options)
+	return client.Dial(options)
 }
 
 // FrontendHostPort returns the host:port for this server.
@@ -160,7 +160,7 @@ func (s *Server) FrontendHostPort() string {
 
 func timeoutFromContext(ctx context.Context, defaultTimeout time.Duration) time.Duration {
 	if deadline, ok := ctx.Deadline(); ok {
-		return deadline.Sub(time.Now())
+		return time.Until(deadline)
 	}
 	return defaultTimeout
 }

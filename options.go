@@ -10,7 +10,7 @@ import (
 	"go.temporal.io/server/common/log"
 	"go.temporal.io/server/temporal"
 
-	"github.com/temporalio/temporalite/internal/liteconfig"
+	"github.com/patrickglass/temporalite/internal/liteconfig"
 )
 
 // WithLogger overrides the default logger.

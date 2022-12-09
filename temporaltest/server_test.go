@@ -15,8 +15,8 @@ import (
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/temporalio/temporalite/internal/examples/helloworld"
-	"github.com/temporalio/temporalite/temporaltest"
+	"github.com/patrickglass/temporalite/internal/examples/helloworld"
+	"github.com/patrickglass/temporalite/temporaltest"
 )
 
 // to be used in example code

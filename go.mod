@@ -1,4 +1,4 @@
-module github.com/temporalio/temporalite
+module github.com/patrickglass/temporalite
 
 go 1.19
 
